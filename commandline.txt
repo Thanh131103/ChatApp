@@ -1,0 +1,14 @@
+  726  NODE_OPTIONS=--openssl-legacy-provider yarn
+  727  NODE_OPTIONS=--openssl-legacy-provider npm install --save-dev
+  728  node -V
+  729  node -v
+  730  yarn install
+  731  yarn --openssl-legacy-provider
+  734  rm -rf node_modules
+  735  yarn
+  736  yarn add node-sass
+  737  NODE_OPTIONS=--openssl-legacy-provider npm start
+  738  yarn remove node-sass
+  739  yarn add sass
+  740  NODE_OPTIONS=--openssl-legacy-provider npm start
+  741  history

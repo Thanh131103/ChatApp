@@ -9,6 +9,7 @@ import authImage from "../assets/images/auth-img.png";
 interface NonAuthLayoutWrapperProps {
   children: any;
 }
+
 const NonAuthLayoutWrapper = (props: NonAuthLayoutWrapperProps) => {
   return (
     <>
@@ -21,7 +22,7 @@ const NonAuthLayoutWrapper = (props: NonAuthLayoutWrapperProps) => {
                   <h3>
                     <Link to="/" className="text-white">
                       <i className="bx bxs-message-alt-detail align-middle text-white h3 mb-1 me-2"></i>{" "}
-                      Doot
+                      Leaf
                     </Link>
                   </h3>
                   <p className="font-size-16">
@@ -45,7 +46,7 @@ const NonAuthLayoutWrapper = (props: NonAuthLayoutWrapperProps) => {
                         <p className="mb-0">
                           &copy; {new Date().getFullYear()} Doot. Crafted with{" "}
                           <i className="mdi mdi-heart text-danger"></i> by
-                          Pichforest
+                          Themesbrand
                         </p>
                       </div>
                     </Col>

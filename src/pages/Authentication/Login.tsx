@@ -134,7 +134,7 @@ const Login = (props: LoginProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader
               title="Welcome Back !"
-              subtitle="Sign in to continue to Doot."
+              subtitle="Sign in to continue to Leaf."
             />
 
             {error && <Alert color="danger">{error}</Alert>}

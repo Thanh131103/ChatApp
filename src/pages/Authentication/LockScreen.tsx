@@ -59,7 +59,7 @@ const LockScreen = (props: LockScreenProps) => {
                 className="rounded-circle img-thumbnail avatar-lg"
                 alt="thumbnail"
               />
-              <h5 className="font-size-15 mt-3">Kathryn Swarey</h5>
+              <h5 className="font-size-15 mt-3">Trong Tinh</h5>
             </div>
 
             <Form

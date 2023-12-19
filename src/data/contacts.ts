@@ -135,8 +135,8 @@ let contacts: ContactTypes[] = [
   },
   {
     id: "614ecab44abffd0867521196",
-    firstName: "Alvarez",
-    lastName: "Luna",
+    firstName: "Thanh",
+    lastName: "Ngo",
     about: "If several languages coalesce, the grammar of the resulting.",
     email: "adc@123.com",
     location: "California, USA",
@@ -236,11 +236,11 @@ let contacts: ContactTypes[] = [
   {
     id: "614ecab4ac946a9bdafa4e3b",
     isFavourite: true,
-    firstName: "Marguerite",
-    lastName: "Campbell",
+    firstName: "Minh",
+    lastName: "Thu",
     profileImage: avatar4,
     about: "If several languages coalesce, the grammar of the resulting.",
-    email: "Marguerite@Campbell.com",
+    email: "Thu@Campbell.com",
     location: "California, USA",
     status: STATUS_TYPES.ACTIVE,
     channels: [
