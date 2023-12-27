@@ -27,7 +27,7 @@ import config from "../../config";
 import { useProfile, useRedux } from "../../hooks/index";
 
 //actions
-import { socialLogin,authLoginApiResponseSuccess } from "../../redux/actions";
+import { socialLogin,authLoginApiResponseSuccess, loginUser,authLoginApiResponseError } from "../../redux/actions";
 
 // components
 import NonAuthLayoutWrapper from "../../components/NonAutnLayoutWrapper";
@@ -105,10 +105,11 @@ const Login = (props: LoginProps) => {
       }
 
       const userData = await response.json();
-      dispatch(authLoginApiResponseSuccess(userData, "Login successful!"));
+      dispatch(authLoginApiResponseSuccess("Login successful!",userData));
+      dispatch(loginUser(userData));
     } catch (error:any) {
       console.error("Login error:", error.message);
-      // Handle login error, update state, show error message, etc.
+      dispatch(authLoginApiResponseError("Login failed", error.message));
     }
   };
 

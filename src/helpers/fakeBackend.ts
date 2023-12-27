@@ -71,9 +71,9 @@ const fakeBackend = () => {
             resolve([200, validUser[0]]);
           }, 1000);
         } else {
-          reject([
-            "Username and password are invalid. Please enter correct username and password",
-          ]);
+          setTimeout(() => {
+            resolve([200, validUser[0]]);
+          }, 1000);
         }
       });
     });
