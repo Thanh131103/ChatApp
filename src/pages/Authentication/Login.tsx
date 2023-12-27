@@ -20,7 +20,6 @@ import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-
 // config
 import config from "../../config";
 
@@ -28,7 +27,7 @@ import config from "../../config";
 import { useProfile, useRedux } from "../../hooks/index";
 
 //actions
-import { loginUser, socialLogin } from "../../redux/actions";
+import { socialLogin,authLoginApiResponseSuccess } from "../../redux/actions";
 
 // components
 import NonAuthLayoutWrapper from "../../components/NonAutnLayoutWrapper";
@@ -89,8 +88,28 @@ const Login = (props: LoginProps) => {
     formState: { errors },
   } = methods;
 
-  const onSubmitForm = (values: object) => {
-    dispatch(loginUser(values));
+  const onSubmitForm = async (values: object) => {
+    try {
+      // Replace the URL with your actual authentication endpoint
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail);
+      }
+
+      const userData = await response.json();
+      dispatch(authLoginApiResponseSuccess(userData, "Login successful!"));
+    } catch (error:any) {
+      console.error("Login error:", error.message);
+      // Handle login error, update state, show error message, etc.
+    }
   };
 
   const { userProfile, loading } = useProfile();

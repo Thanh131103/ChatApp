@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { useProfile } from "../../hooks";
 
 //actions
-import { registerUser } from "../../redux/actions";
+import { registerUser,authRegisterApiResponseSuccess } from "../../redux/actions";
 
 // components
 import NonAuthLayoutWrapper from "../../components/NonAutnLayoutWrapper";
@@ -38,11 +38,7 @@ const Register = (props: RegisterProps) => {
 
   const resolver = yupResolver(
     yup.object().shape({
-      email: yup
-        .string()
-        .email("This value should be a valid email.")
-        .required("Please Enter E-mail."),
-      username: yup.string().required("Please Enter E-mail."),
+      email: yup.string().required("Please Enter E-mail."),
       password: yup.string().required("Please Enter Password."),
     })
   );
@@ -57,9 +53,32 @@ const Register = (props: RegisterProps) => {
     formState: { errors },
   } = methods;
 
-  const onSubmitForm = (values: object) => {
-    dispatch(registerUser(values));
+  const onSubmitForm = async (values: object) => {
+    try {
+      dispatch(registerUser(values));
+      console.log('Request Values:', values);
+  
+      // Make API request with the correct headers
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail);
+      }
+  
+      const userData = await response.json();
+      dispatch(authRegisterApiResponseSuccess(userData, "Registration successful!"));
+    } catch (error:any) {
+      console.error("Registration error:", error.message);
+    }
   };
+  
 
   const { userProfile, loading } = useProfile();
 
@@ -74,7 +93,7 @@ const Register = (props: RegisterProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader
               title="Register Account"
-              subtitle="Get your free Doot account now."
+              subtitle="Get your free Leaf account now."
             />
 
             {user && user ? (
@@ -134,7 +153,7 @@ const Register = (props: RegisterProps) => {
 
               <div className="mb-4">
                 <p className="mb-0">
-                  By registering you agree to the Doot{" "}
+                  By registering you agree to the Leaf{" "}
                   <Link to="#" className="text-primary">
                     Terms of Use
                   </Link>

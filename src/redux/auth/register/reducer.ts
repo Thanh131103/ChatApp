@@ -1,6 +1,6 @@
 import { AuthRegisterActionTypes, AuthRegisterState } from "./types";
 
-export const INIT_STATE: AuthRegisterState = {
+const INIT_STATE: AuthRegisterState = {
   registrationError: null,
   message: "",
   loading: false,
@@ -17,10 +17,10 @@ const Register = (state = INIT_STATE, action: any) => {
             loading: false,
             user: action.payload.data,
             registrationError: null,
-            isUserRegistered: true,
+            message: "Registration successful!", // Assuming your server sends a message upon success
           };
         default:
-          return { ...state };
+          return state;
       }
 
     case AuthRegisterActionTypes.API_RESPONSE_ERROR:
@@ -30,21 +30,22 @@ const Register = (state = INIT_STATE, action: any) => {
             ...state,
             loading: false,
             registrationError: action.payload.error,
-            isUserRegistered: false,
+            message: "", // Resetting the message upon error
           };
         default:
-          return { ...state };
+          return state;
       }
 
     case AuthRegisterActionTypes.REGISTER_USER: {
       return {
         ...state,
         loading: true,
-        isUserRegistered: false,
+        registrationError: null,
+        message: "", // Resetting the message upon initiating registration
       };
     }
     default:
-      return { ...state };
+      return state;
   }
 };
 
