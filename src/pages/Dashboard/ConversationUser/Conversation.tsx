@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useCallback, useState } from "react";
 import { useRedux } from "../../../hooks/index";
 
 // hooks
-import { useProfile } from "../../../hooks";
+// import { useProfile } from "../../../hooks";
 
 // components
 import AppSimpleBar from "../../../components/AppSimpleBar";
@@ -35,7 +35,7 @@ const Conversation = ({
   // global store
   const { dispatch, useAppSelector } = useRedux();
 
-  const { userProfile } = useProfile();
+  // const { userProfile } = useProfile();
 
   const { getUserConversationsLoading, isMessageForwarded } = useAppSelector(
     (state: any) => ({
@@ -125,7 +125,7 @@ const Conversation = ({
         id="chat-conversation-list"
       >
         {(messages || []).map((message: MessagesTypes, key: number) => {
-          const isFromMe = message.meta.sender + "" === userProfile.uid + "";
+          const isFromMe = message.meta.sender + "" === "614ecab4ac946a9bdafa4e3b";
           return (
             <Message
               message={message}

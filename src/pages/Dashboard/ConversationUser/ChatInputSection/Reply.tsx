@@ -6,7 +6,7 @@ import { Collapse, Card, CardBody } from "reactstrap";
 import { MessagesTypes } from "../../../../data/messages";
 
 // hooks
-import { useProfile } from "../../../../hooks";
+// import { useProfile } from "../../../../hooks";
 
 interface ReplyProps {
   reply: null | MessagesTypes | undefined;
@@ -26,13 +26,13 @@ const Reply = ({ reply, onSetReplyData, chatUserDetails }: ReplyProps) => {
     setIsOpen(reply ? true : false);
   }, [reply]);
 
-  const { userProfile } = useProfile();
-
+  // const { userProfile } = useProfile();
+  // console.log(userProfile);
   const replyUserName = chatUserDetails.firstName
     ? `${chatUserDetails.firstName} ${chatUserDetails.lastName}`
     : "-";
   const isReplyFromMe =
-    reply && reply.meta.sender + "" === userProfile.uid + "";
+    reply && reply.meta.sender + "" === 1 + "";
 
   return (
     <Collapse isOpen={isOpen} className="chat-input-collapse replyCollapse">

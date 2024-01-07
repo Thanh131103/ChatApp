@@ -56,12 +56,6 @@ enum WalletView {
   History,
 }
 
-enum RechargeMethod {
-  None,
-  Bank,
-  Momo,
-}
-
 const DirectMessages = ({
   users,
   openAddContact,
@@ -77,16 +71,17 @@ const DirectMessages = ({
   const [notEnoughBalance, setNotEnoughBalance] = useState(false);
   const [transferFailed, setTransferFailed] = useState(false);
   const [walletView, setWalletView] = useState(WalletView.Main);
-  const [showHistory, setShowHistory] = useState(false);
+  const [showHistory, setShowHistory] = useState(false); // State for transaction history visibility
   const [rechargeHistory, setRechargeHistory] = useState<number[]>([]);
   const [transferHistory, setTransferHistory] = useState<number[]>([]);
-  const [rechargeMethod, setRechargeMethod] = useState(RechargeMethod.None);
 
   // Example: Fetch transaction history when the component mounts
   useEffect(() => {
+    // Simulate fetching recharge and transfer history
+    // Set these to empty arrays initially
     setRechargeHistory([]);
     setTransferHistory([]);
-  }, []);
+  }, []); // The empty dependency array ensures this effect runs only once
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -94,26 +89,26 @@ const DirectMessages = ({
     setShowTransferInput(false);
     setNotEnoughBalance(false);
     setTransferFailed(false);
-    setShowHistory(false);
+    setShowHistory(false); // Reset the history state when closing the modal
     setWalletView(WalletView.Main);
   };
 
   const handleSetBalance = () => {
-    setRechargeMethod(RechargeMethod.None);
     setShowBalanceInput(true);
     setWalletView(WalletView.Recharge);
   };
 
-  const handleRechargeMethodSelection = (method: RechargeMethod) => {
-    setRechargeMethod(method);
-  };
-
   const handleApplyBalance = () => {
     const newBalance = balance + rechargeAmount;
-    setRechargeHistory((prevHistory) => [...prevHistory, newBalance]);
+    setRechargeHistory((prevHistory) => [...prevHistory, rechargeAmount]);
     setBalance(newBalance);
     setShowBalanceInput(false);
     setWalletView(WalletView.Main);
+  };
+
+  const handleTransfer = () => {
+    setShowTransferInput(true);
+    setWalletView(WalletView.Transfer);
   };
 
   const handleApplyTransfer = () => {
@@ -123,7 +118,7 @@ const DirectMessages = ({
     }
 
     const newBalance = balance - transferAmount;
-    setTransferHistory((prevHistory) => [...prevHistory, newBalance]);
+    setTransferHistory((prevHistory) => [...prevHistory, transferAmount]);
     setBalance(newBalance);
     setShowTransferInput(false);
     setNotEnoughBalance(false);
@@ -131,11 +126,15 @@ const DirectMessages = ({
     setWalletView(WalletView.Main);
   };
 
+  const handleViewHistory = () => {
+    setShowHistory(true);
+    setWalletView(WalletView.History);
+  };
+
   const handleBackToMain = () => {
-    setRechargeMethod(RechargeMethod.None);
     setWalletView(WalletView.Main);
     setTransferFailed(false);
-    setShowHistory(false);
+    setShowHistory(false); // Reset the history state when going back to main
   };
 
   return (
@@ -148,6 +147,7 @@ const DirectMessages = ({
         </div>
         <div className="flex-shrink-0">
           <div id="new-message" title="New Message">
+            {/* Use the WalletIcon component */}
             <WalletIcon onClick={toggleModal} />
           </div>
           <UncontrolledTooltip target="new-message" placement="bottom">
@@ -156,6 +156,7 @@ const DirectMessages = ({
         </div>
       </div>
 
+      {/* Modal for wallet */}
       <Modal isOpen={modalOpen} toggle={toggleModal} className="custom-modal">
         <ModalHeader toggle={toggleModal}>
           {walletView === WalletView.Main && "Leaf Wallet"}
@@ -214,42 +215,27 @@ const DirectMessages = ({
               {transferHistory.map((amount, index) => (
                 <p key={index}>Transferred: {amount} VND</p>
               ))}
+              {/* Back button to return to the main view */}
               <Button color="secondary" onClick={handleBackToMain}>
                 Back
               </Button>
             </div>
-          ) : rechargeMethod === RechargeMethod.None ? (
-            <div>
-              <Button
-                color="primary"
-                onClick={() => handleRechargeMethodSelection(RechargeMethod.Bank)}
-              >
-                Recharge via Bank
-              </Button>
-              <Button
-                color="primary"
-                className="ms-2"
-                onClick={() => handleRechargeMethodSelection(RechargeMethod.Momo)}
-              >
-                Recharge via Momo
-              </Button>
-            </div>
-          ) : rechargeMethod === RechargeMethod.Bank ? (
-            <div>
-              {/* Bank recharge content goes here */}
+          ) : (
+            <>
+              <p>Balance: {balance} VND</p>
               <Button color="primary" onClick={handleSetBalance}>
-                Back
+                Recharge
               </Button>
-            </div>
-          ) : rechargeMethod === RechargeMethod.Momo ? (
-            <div>
-              {/* Momo recharge content goes here */}
-              <Button color="primary" onClick={handleSetBalance}>
-                Back
+              <Button color="success" className="ms-2" onClick={handleTransfer}>
+                Transfer
               </Button>
-            </div>
-          ) : null}
+              <Button color="info" className="ms-2" onClick={handleViewHistory}>
+                View History
+              </Button>
+            </>
+          )}
 
+          {/* Close button */}
           <Button color="secondary" onClick={toggleModal}>
             Close
           </Button>

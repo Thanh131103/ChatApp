@@ -498,8 +498,8 @@ const fakeBackend = () => {
           meta: {
             ...data.meta,
             sent: true,
-            received: false,
-            read: false,
+            received: true,
+            read: true,
           },
         };
         if (data.image && data.image.length) {
@@ -690,7 +690,7 @@ const fakeBackend = () => {
             time: new Date().toISOString(),
             meta: {
               receiver: c,
-              sender: users[0].uid,
+              sender: 1,
               sent: true,
               received: false,
               read: false,
@@ -719,8 +719,8 @@ const fakeBackend = () => {
             text: data.message && data.message,
             time: new Date().toISOString(),
             meta: {
-              receiver: "614ecab4ac946a9bdafa4e3b",
-              sender: users[0].uid,
+              receiver: 1,
+              sender: "614ecab4ac946a9bdafa4e3b",
               sent: true,
               received: false,
               read: false,

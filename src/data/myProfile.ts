@@ -1,5 +1,5 @@
 import image4 from "../assets/images/small/img-4.jpg";
-import avatar1 from "../assets/images/users/avatar-1.jpg";
+import avatar1 from "../assets/images/users/avatar-11.jpg";
 import img1 from "../assets/images/small/img-1.jpg";
 import img2 from "../assets/images/small/img-2.jpg";
 import img4 from "../assets/images/small/img-4.jpg";
@@ -45,14 +45,14 @@ export interface ProfileDetailsTypes {
 
 const profileDetails: ProfileDetailsTypes = {
   basicDetails: {
-    firstName: "Kathryn",
-    lastName: "Swarey",
+    firstName: "Tinh",
+    lastName: "Do",
     title: "Front end Developer",
     description:
-      "If several languages coalesce, the grammar of the resulting language is more simple.",
-    fullName: "Kathryn Swarey",
-    email: "admin@themesbrand.com",
-    location: "California, USA",
+      "Hi i'm form UIT",
+    fullName: "Do Trong Tinh",
+    email: "tinhdo@gmail.com",
+    location: "HoChiMinh,Vietnam",
     avatar: avatar1,
     coverImage: image4,
   },

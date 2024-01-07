@@ -17,7 +17,7 @@ import {
 } from "../../../redux/actions";
 
 // hooks
-import { useProfile } from "../../../hooks";
+// import { useProfile } from "../../../hooks";
 
 // components
 import UserHead from "./UserHead";
@@ -62,7 +62,7 @@ const Index = ({ isChannel }: IndexProps) => {
   /*
   hooks
   */
-  const { userProfile } = useProfile();
+  // const { userProfile } = useProfile();
 
   /*
   reply handeling
@@ -85,23 +85,34 @@ const Index = ({ isChannel }: IndexProps) => {
       attachments: data.attachments && data.attachments,
       meta: {
         receiver: chatUserDetails.id,
-        sender: userProfile.uid,
+        sender: "614ecab4ac946a9bdafa4e3b",
+      },
+    };
+    let params1: any = {
+      text: data.text && data.text,
+      time: new Date().toISOString(),
+      image: data.image && data.image,
+      attachments: data.attachments && data.attachments,
+      meta: {
+        receiver: chatUserDetails.id,
+        sender: 1,
       },
     };
     if (replyData && replyData !== null) {
       params["replyOf"] = replyData;
     }
-
+    console.log(params);
     dispatch(onSendMessage(params));
+    dispatch(onSendMessage(params1));
     if (!isChannel) {
       setTimeout(() => {
-        dispatch(receiveMessage(chatUserDetails.id));
+        dispatch(receiveMessage(1));
       }, 1000);
       setTimeout(() => {
-        dispatch(readMessage(chatUserDetails.id));
+        dispatch(readMessage(1));
       }, 1500);
       setTimeout(() => {
-        dispatch(receiveMessageFromUser(chatUserDetails.id));
+        dispatch(receiveMessageFromUser(1));
       }, 2000);
     }
     setReplyData(null);
