@@ -1,8 +1,7 @@
-import image4 from "../assets/images/small/img-4.jpg";
 import avatar1 from "../assets/images/users/avatar-11.jpg";
+import image4 from "../assets/images/small/img-4.jpg";
 import img1 from "../assets/images/small/img-1.jpg";
 import img2 from "../assets/images/small/img-2.jpg";
-import img4 from "../assets/images/small/img-4.jpg";
 
 export interface BasicDetailsTypes {
   firstName: string;
@@ -20,6 +19,7 @@ export interface MediaListItemTypes {
   id: number;
   url: string;
 }
+
 export interface MediaTypes {
   total: number;
   list: MediaListItemTypes[];
@@ -37,6 +37,7 @@ export interface AttachedfileItemTypes {
   downloadUrl: string;
   icon: string;
 }
+
 export interface ProfileDetailsTypes {
   basicDetails: BasicDetailsTypes;
   media: MediaTypes;
@@ -48,8 +49,7 @@ const profileDetails: ProfileDetailsTypes = {
     firstName: "Tinh",
     lastName: "Do",
     title: "Front end Developer",
-    description:
-      "Hi i'm form UIT",
+    description: "Hi i'm from UIT",
     fullName: "Do Trong Tinh",
     email: "tinhdo@gmail.com",
     location: "HoChiMinh,Vietnam",
@@ -69,11 +69,11 @@ const profileDetails: ProfileDetailsTypes = {
       },
       {
         id: 3,
-        url: img4,
+        url: img1,
       },
       {
         id: 4,
-        url: img1,
+        url: img2,
       },
     ],
   },
@@ -124,4 +124,9 @@ const myData = {
   profileImage: profileDetails.basicDetails.avatar,
 };
 
-export { profileDetails, myData };
+const updateProfile = (newProfileDetails: BasicDetailsTypes) => {
+  profileDetails.basicDetails = { ...profileDetails.basicDetails, ...newProfileDetails };
+  // Add logic to persist the updated profile details if necessary
+};
+
+export { profileDetails, myData, updateProfile };
