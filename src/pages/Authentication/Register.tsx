@@ -1,35 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, Row, Col, Form, Button, UncontrolledTooltip } from "reactstrap";
-
-// hooks
-import { useRedux } from "../../hooks/index";
-
-// router
-import { Link, Redirect } from "react-router-dom";
-
-// validations
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-
-// hooks
-import { useProfile } from "../../hooks";
-
-//actions
-import { registerUser,authRegisterApiResponseSuccess } from "../../redux/actions";
-
-// components
+import { useRedux } from "../../hooks/index";
+import { authRegisterApiResponseSuccess } from "../../redux/actions";
 import NonAuthLayoutWrapper from "../../components/NonAutnLayoutWrapper";
 import AuthHeader from "../../components/AuthHeader";
 import FormInput from "../../components/FormInput";
 import Loader from "../../components/Loader";
-
+import { useProfile } from "../../hooks";
 interface RegisterProps {}
+
 const Register = (props: RegisterProps) => {
-  // global store
+  const history = useHistory();
   const { dispatch, useAppSelector } = useRedux();
 
-  const { user, registrationError, regLoading } = useAppSelector(state => ({
+  const { user, registrationError, regLoading } = useAppSelector((state) => ({
     user: state.Register.user,
     registrationError: state.Register.registrationError,
     regLoading: state.Register.loading,
@@ -53,32 +41,61 @@ const Register = (props: RegisterProps) => {
     formState: { errors },
   } = methods;
 
+  const [verificationStep, setVerificationStep] = useState(false);
+
   const onSubmitForm = async (values: object) => {
     try {
-      dispatch(registerUser(values));
-      console.log('Request Values:', values);
-  
-      // Make API request with the correct headers
-      const response = await fetch("http://localhost:8000/auth/register", {
+      console.log(values);
+      // const userEmail: string = (values as { email: string }).email;
+
+      // Make API request to send email verification code
+      const response2 = await fetch("http://localhost:8000/auth/sendEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
+        
       });
-  
+      if (!response2.ok) {
+        const errorData = await response2.json();
+        throw new Error(errorData.detail);
+      }
+
+      setVerificationStep(true);
+
+    } catch (error: any) {
+      console.error("Error sending email verification code:", error.message);
+    }
+  };
+
+  const onVerificationSubmit = async (verificationData: any) => {
+    try {
+      // Make API request to register the user with email verification code
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(verificationData),
+      });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.detail);
       }
-  
+
       const userData = await response.json();
       dispatch(authRegisterApiResponseSuccess(userData, "Registration successful!"));
-    } catch (error:any) {
+
+      // Redirect to login page after a delay
+      setTimeout(() => {
+        history.push("/auth-login");
+      }, 2000);
+    } catch (error: any) {
       console.error("Registration error:", error.message);
     }
   };
-  
 
   const { userProfile, loading } = useProfile();
 
@@ -105,7 +122,7 @@ const Register = (props: RegisterProps) => {
             ) : null}
 
             <Form
-              onSubmit={handleSubmit(onSubmitForm)}
+              onSubmit={verificationStep ? handleSubmit(onVerificationSubmit) : handleSubmit(onSubmitForm)}
               className="position-relative"
             >
               {regLoading && <Loader />}
@@ -123,19 +140,21 @@ const Register = (props: RegisterProps) => {
                 />
               </div>
 
-              <div className="mb-3">
-                <FormInput
-                  label="Username"
-                  type="text"
-                  name="username"
-                  register={register}
-                  errors={errors}
-                  control={control}
-                  labelClassName="form-label"
-                  placeholder="Enter username"
-                  className="form-control"
-                />
-              </div>
+              {verificationStep && (
+                <div className="mb-3">
+                  <FormInput
+                    label="Verification Code"
+                    type="text"
+                    name="verificationCode"
+                    register={register}
+                    errors={errors}
+                    control={control}
+                    labelClassName="form-label"
+                    placeholder="Enter Verification Code"
+                    className="form-control"
+                  />
+                </div>
+              )}
 
               <div className="mb-3">
                 <FormInput
@@ -166,7 +185,7 @@ const Register = (props: RegisterProps) => {
                   className="w-100  waves-effect waves-light"
                   type="submit"
                 >
-                  Register
+                  {verificationStep ? "Submit Verification" : "Register"}
                 </Button>
               </div>
               <div className="mt-4 text-center">
