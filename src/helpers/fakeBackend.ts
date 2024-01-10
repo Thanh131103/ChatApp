@@ -719,8 +719,8 @@ const fakeBackend = () => {
             text: data.message && data.message,
             time: new Date().toISOString(),
             meta: {
-              receiver: 1,
-              sender: "614ecab4ac946a9bdafa4e3b",
+              receiver: "614ecab4ac946a9bdafa4e3b",
+              sender: users[0].uid,
               sent: true,
               received: false,
               read: false,

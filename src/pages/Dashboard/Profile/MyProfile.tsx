@@ -1,11 +1,4 @@
-import React, { useState } from "react";
-
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import React from "react";
 
 // interface
 import { BasicDetailsTypes } from "../../../data/myProfile";
@@ -13,14 +6,12 @@ import { BasicDetailsTypes } from "../../../data/myProfile";
 interface MyProfileProps {
   basicDetails: BasicDetailsTypes;
 }
+
 const MyProfile = ({ basicDetails }: MyProfileProps) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const toggle = () => setDropdownOpen(!dropdownOpen);
-
   const fullName = basicDetails
     ? `${basicDetails.firstName} ${basicDetails.lastName}`
     : "-";
+
   return (
     <>
       <div className="user-profile-img">
@@ -40,39 +31,8 @@ const MyProfile = ({ basicDetails }: MyProfileProps) => {
                 <div className="flex-grow-1">
                   <h5 className="text-white mb-0">My Profile</h5>
                 </div>
+                {/* Remove the dropdown and directly link to the Settings page */}
                 <div className="flex-shrink-0">
-                  <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                    <DropdownToggle
-                      color="none"
-                      className="btn nav-btn text-white"
-                      type="button"
-                    >
-                      <i className="bx bx-dots-vertical-rounded"></i>
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-end">
-                      <DropdownItem
-                        className="d-flex align-items-center justify-content-between"
-                        href="#"
-                      >
-                        Info{" "}
-                        <i className="bx bx-info-circle ms-2 text-muted"></i>
-                      </DropdownItem>
-                      <DropdownItem
-                        className="d-flex align-items-center justify-content-between"
-                        href="#"
-                      >
-                        Setting <i className="bx bx-cog text-muted ms-2"></i>
-                      </DropdownItem>
-                      <DropdownItem divider />
-                      <DropdownItem
-                        className="d-flex align-items-center justify-content-between"
-                        href="#"
-                      >
-                        Help{" "}
-                        <i className="bx bx-help-circle ms-2 text-muted"></i>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
                 </div>
               </div>
             </div>
@@ -99,4 +59,5 @@ const MyProfile = ({ basicDetails }: MyProfileProps) => {
     </>
   );
 };
+
 export default MyProfile;
